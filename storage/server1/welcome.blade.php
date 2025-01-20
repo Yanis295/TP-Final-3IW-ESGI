@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <h1 class="text-4xl font-bold text-gray-100 text-center mb-8">Serveur {{ env('SERVER_ID') }}</h1>
 
         <title>Laravel</title>
 
@@ -38,6 +37,7 @@
             @endif
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+<h1 class="text-4xl font-bold text-center w-full mb-4 text-gray-900 dark:text-white">Serveur 2</h1>
                 <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
                     <svg viewBox="0 0 651 192" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto text-gray-700 sm:h-20">
                         <g clip-path="url(#clip0)" fill="#EF3B2D">

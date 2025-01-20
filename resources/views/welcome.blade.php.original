@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <h1 class="text-4xl font-bold text-gray-100 text-center mb-8">Serveur {{ env('SERVER_ID') }}</h1>
 
         <title>Laravel</title>
 

@@ -1,0 +1,98 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  nginx1:
+    build: ./docker/nginx
+    container_name: laravel_nginx1
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/var/www/html
+      - ./storage/server1:/var/www/html/storage/server1
+      - ./docker/nginx/conf.d/server1.conf:/etc/nginx/conf.d/default.conf
+      - ./logs/nginx1:/var/log/nginx
+    depends_on:
+      - php1
+    networks:
+      - laravel-network
+
+  nginx2:
+    build: ./docker/nginx
+    container_name: laravel_nginx2
+    ports:
+      - "8082:80"
+    volumes:
+      - .:/var/www/html
+      - ./storage/server2:/var/www/html/storage/server2
+      - ./docker/nginx/conf.d/server2.conf:/etc/nginx/conf.d/default.conf
+      - ./logs/nginx2:/var/log/nginx
+    depends_on:
+      - php2
+    networks:
+      - laravel-network
+
+  php1:
+    build: 
+      context: ./docker/php
+      args:
+        - SERVER_ID=1
+    container_name: laravel_php1
+    environment:
+      - SERVER_ID=1
+    volumes:
+      - .:/var/www/html
+      - ./storage/server1:/var/www/html/storage/server1
+    depends_on:
+      - mysql
+    networks:
+      - laravel-network
+
+  php2:
+    build: 
+      context: ./docker/php
+      args:
+        - SERVER_ID=2
+    container_name: laravel_php2
+    environment:
+      - SERVER_ID=2
+    volumes:
+      - .:/var/www/html
+      - ./storage/server2:/var/www/html/storage/server2
+    depends_on:
+      - mysql
+    networks:
+      - laravel-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: laravel_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    volumes:
+      - laravel-mysql-data:/var/lib/mysql
+    ports:
+      - "33306:3306"
+    networks:
+      - laravel-network
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: laravel_mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - laravel-network
+
+networks:
+  laravel-network:
+    name: laravel-network
+    driver: bridge
+
+volumes:
+  laravel-mysql-data:
+    name: laravel-mysql-data
